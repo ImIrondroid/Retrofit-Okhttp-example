@@ -9,7 +9,9 @@ Retrofit은 REST API로, 서버와 클라이언트간 Http 통신을 위한 인�
 이 Retrofit, OkHttp통신 예제는 https://api.github.com/repos/square/retrofit/contributors 에서의 JSON 형식으로 된 정보들중에
 login field의 값들을 모두 append하여 TextView에 나타내는 것 입니다. 
 
-- 인터넷 권한 추가하기
+
+- 인터넷 사용 권한 추가하기
+
   ```bash
   
   AndroidManifest.xml
@@ -19,7 +21,8 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
   ```
   서버통신을 사용하기 위하여 인터넷 권한 추가를 꼭 해줘야 합니다.
   
- - Gradle에 라이브러리 추가하기
+  
+- Gradle에 라이브러리 추가하기
 
   ```bash
   
@@ -29,10 +32,11 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     
- }
+  }
  
- ```
- 통신결과를 Gson형태로 변환하기 위하여 컨버터를 추가하였습니다.
+  ```
+  통신결과를 Gson형태로 변환하기 위하여 컨버터를 추가하였습니다.
+
 
 - 모델클래스 만들기
 
@@ -44,9 +48,11 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
     public User(String login) {
         this.login = login;
     }
+    
   }
   
   ```
+  
   
 - 인터페이스 만들기  
   
@@ -66,7 +72,8 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
   ```
   당연히 @post, @put, @delete등을 지원합니다.
   
-- 메인에서 Retrofit 구현하기
+  
+  - 메인에서 Retrofit 구현하기
   
   ```bash
   
@@ -191,7 +198,7 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
   
  ### Retrofit의 편리한점
   
-  Retrofit라이브러리는 기본적으로 OkHttp라이브러리를 포함하고 있습니다.
-  Retrofit 은 파라메터, 쿼리, 헤더 등의 매핑작업, 결과 처리작업 등 반복되는 작업들을 편리하게 처리할 수 있게끔 구현된 라이브러리입니다.
+  Retrofit라이브러리는 기본적으로 OkHttp라이브러리를 포함하고 있습니다. <br/>
+  Retrofit 은 파라메터, 쿼리, 헤더 등의 매핑작업, 결과 처리작업 등 반복되는 작업들을 편리하게 처리할 수 있게끔 구현된 라이브러리입니다. <br/>
   Retrofit을 사용하지 않고 okhttp만을 이용해서도 작업이 가능하나, Url 매핑, 파라메터 매핑등의 귀찮은 작업들이 많아지기 때문에, okhttp와 
   함께 사용합니다.
