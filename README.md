@@ -12,9 +12,9 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
 - 인터넷 권한 추가하기
   ```bash
   
-AndroidManifest.xml
+  AndroidManifest.xml
 
-<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+  <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
   ```
   서버통신을 사용하기 위하여 인터넷 권한 추가를 꼭 해줘야 합니다.
@@ -42,8 +42,7 @@ AndroidManifest.xml
     public User(String login) {
         this.login = login;
     }
-
-}
+  }
   ```
   
 - 인터페이스 만들기  
@@ -58,7 +57,7 @@ AndroidManifest.xml
             @Path("owner") String owner,
             @Path("repository") String repository
     );
- }
+  }
   
   ```
   
@@ -78,7 +77,7 @@ AndroidManifest.xml
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
-
+        
         executeRetrofit();
         //executeOkHttp();
     }
@@ -126,4 +125,53 @@ AndroidManifest.xml
     }
 }
 
+```
+- OkHttpAsynctask 구현하기
+```bash
+public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
+
+    OkHttpClient client = new OkHttpClient();
+    TextView textView;
+
+    // setTextView를 위해 Main에서 인자를 받기위함
+    public OkHttpAsyncTask(TextView textView) {
+        this.textView = textView;
+    }
+    
+    @Override
+    protected String doInBackground(String... strings) {
+        String result = "";
+        String strUrl = strings[0];
+
+        try {
+            Request request = new Request.Builder()
+                    .url(strUrl)
+                    .build();
+            Response response = client.newCall(request).execute();
+
+            JSONArray jsonArray = new JSONArray(response.body().string());
+
+            for(int i = 0; i< jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String loginid = jsonObject.getString("login");
+                result+="login ID : "+loginid+"\n";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if(s != null) {
+            textView.setText(s);
+        }
+    }
+}
 ```
