@@ -60,6 +60,7 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
   }
   
   ```
+  당연히 @post, @put, @delete등을 지원합니다.
   
 - 메인에서 Retrofit 구현하기
   
@@ -123,55 +124,63 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
         new OkHttpAsyncTask(textView).execute("https://api.github.com/repos/square/retrofit/contributors");
 
     }
-}
-
-```
+  }
+  ```
 - OkHttpAsynctask 구현하기
-```bash
-public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
+  ```bash
+  public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
-    OkHttpClient client = new OkHttpClient();
-    TextView textView;
+      OkHttpClient client = new OkHttpClient();
+      TextView textView;
 
-    // setTextView를 위해 Main에서 인자를 받기위함
-    public OkHttpAsyncTask(TextView textView) {
-        this.textView = textView;
-    }
+     // setTextView를 위해 Main에서 인자를 받기위함
+     public OkHttpAsyncTask(TextView textView) {
+         this.textView = textView;
+     }
     
-    @Override
-    protected String doInBackground(String... strings) {
-        String result = "";
-        String strUrl = strings[0];
+      @Override
+     protected String doInBackground(String... strings) {
+         String result = "";
+         String strUrl = strings[0];  
 
-        try {
-            Request request = new Request.Builder()
-                    .url(strUrl)
-                    .build();
-            Response response = client.newCall(request).execute();
+          try { 
+             // 요청하기
+             Request request = new Request.Builder()
+                     .url(strUrl)
+                     .build();
+             // 요청에대한 응답
+             Response response = client.newCall(request).execute();
 
-            JSONArray jsonArray = new JSONArray(response.body().string());
+             JSONArray jsonArray = new JSONArray(response.body().string());
 
-            for(int i = 0; i< jsonArray.length(); i++) {
+             for(int i = 0; i< jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String loginid = jsonObject.getString("login");
                 result+="login ID : "+loginid+"\n";
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+          } catch (IOException e) {
+              e.printStackTrace();
+          } catch (JSONException e) {
+              e.printStackTrace();
+         }
+         return result;
+      }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
-        if(s != null) {
-            textView.setText(s);
-        }
-    }
-}
-```
+      @Override
+      protected void onPostExecute(String s) {
+          super.onPostExecute(s);
+          if(s != null) {
+             textView.setText(s);
+          }
+      }
+  }
+  ```
+  
+  
+  - Retrofit의 편리한점
+  
+  Retrofit라이브러리는 기본적으로 OkHttp라이브러리를 포함하고 있습니다.
+  Retrofit 은 파라메터, 쿼리, 헤더 등의 매핑작업, 결과 처리작업 등 반복되는 작업들을 편리하게 처리할 수 있게끔 구현된 라이브러리입니다.
+  Retrofit을 사용하지 않고 okhttp만을 이용해서도 작업이 가능하나, Url 매핑, 파라메터 매핑등의 귀찮은 작업들이 많아지기 때문에, okhttp와 
+  함께 사용합니다.
