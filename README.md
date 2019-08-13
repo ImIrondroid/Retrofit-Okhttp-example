@@ -29,13 +29,15 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     
-}
-  ```
-추가로 통신결과를 Gson형태로 변환하기 위하여 컨버터를 추가하였습니다.
+ }
+ 
+ ```
+ 통신결과를 Gson형태로 변환하기 위하여 컨버터를 추가하였습니다.
 
 - 모델클래스 만들기
 
   ```bash
+  
   public class User {
 
     public final String login;
@@ -43,11 +45,13 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
         this.login = login;
     }
   }
+  
   ```
   
 - 인터페이스 만들기  
   
   ```bash
+  
   public interface GetApi {
 
     @GET("/repos/{owner}/{repository}/contributors")
@@ -65,6 +69,7 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
 - 메인에서 Retrofit 구현하기
   
   ```bash
+  
   public class MainActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
@@ -125,9 +130,14 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
 
     }
   }
+  
   ```
+  
+  
 - OkHttpAsynctask 구현하기
+
   ```bash
+  
   public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
       OkHttpClient client = new OkHttpClient();
@@ -175,10 +185,11 @@ login field의 값들을 모두 append하여 TextView에 나타내는 것 입니
           }
       }
   }
+  
   ```
   
   
-  - Retrofit의 편리한점
+ ### Retrofit의 편리한점
   
   Retrofit라이브러리는 기본적으로 OkHttp라이브러리를 포함하고 있습니다.
   Retrofit 은 파라메터, 쿼리, 헤더 등의 매핑작업, 결과 처리작업 등 반복되는 작업들을 편리하게 처리할 수 있게끔 구현된 라이브러리입니다.
