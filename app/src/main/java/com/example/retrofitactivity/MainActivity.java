@@ -10,15 +10,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Retrofit retrofit;
     private TextView textView;
 
-    private final String BASE_URL = "https://api.github.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,42 +23,16 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
-        executeRetrofit();
         //executeOkHttp();
+        executeRetrofit();
+
     }
 
-    void executeRetrofit() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        GetApi getApi = retrofit.create(GetApi.class);
-        Call<List<User>> call = getApi.sendParam("square","retrofit");
-
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-
-                List<User> users = response.body();
-
-                for(User user : users) {
-                    Log.d("Printed login", user.login);
-                    textView.append("login ID : " +user.login+"\n");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    void executeOkHttp() {
-
+    public void executeOkHttp() {
         new OkHttpAsyncTask(textView).execute("https://api.github.com/repos/square/retrofit/contributors");
+    }
 
+    public void executeRetrofit() {
+        new Retrofit().executeRetrofit(textView);
     }
 }
